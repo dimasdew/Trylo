@@ -7,9 +7,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import Icon from "@/components/Icon";
 import Button from "@/components/Button";
 import { useStore } from "@/lib/store";
+import { useT } from "@/lib/i18n";
 
 export default function AccountPage() {
   const router = useRouter();
+  const t = useT();
   const { user, orders, updateProfile, logout, resetData } = useStore();
   const [editing, setEditing] = useState(false);
   const [name, setName] = useState(user?.name || "");
@@ -41,26 +43,26 @@ export default function AccountPage() {
   const activeCount = orders.filter((o) => o.status === "active").length;
 
   const stats = [
-    { label: "Total Pesanan", value: orders.length },
-    { label: "eSIM Aktif", value: activeCount },
-    { label: "Total Belanja", value: `Rp${totalSpent.toLocaleString("id-ID")}` },
+    { label: t("account.statOrders"), value: orders.length },
+    { label: t("account.statActive"), value: activeCount },
+    { label: t("account.statSpent"), value: `Rp${totalSpent.toLocaleString("id-ID")}` },
   ];
 
   const menuItems = [
-    { icon: "sim", label: "eSIM Saya", desc: "Kelola semua eSIM aktif & berakhir", href: "/app/orders" },
-    { icon: "cart", label: "Riwayat Pembelian", desc: "Semua transaksi kamu", href: "/app/orders" },
-    { icon: "gift", label: "Voucher & Reward", desc: "Diskon dan poin Trylo", href: "/app/plans" },
-    { icon: "shield", label: "Keamanan", desc: "Password, 2FA, device", href: "/forgot" },
-    { icon: "chat", label: "Bantuan", desc: "FAQ dan kontak support 24/7", href: "/help" },
-    { icon: "doc", label: "Syarat & Ketentuan", desc: "Baca syarat layanan", href: "/terms" },
+    { icon: "sim", label: t("account.mMyEsim"), desc: t("account.mMyEsimDesc"), href: "/app/orders" },
+    { icon: "cart", label: t("account.mHistory"), desc: t("account.mHistoryDesc"), href: "/app/orders" },
+    { icon: "gift", label: t("account.mVoucher"), desc: t("account.mVoucherDesc"), href: "/app/plans" },
+    { icon: "shield", label: t("account.mSecurity"), desc: t("account.mSecurityDesc"), href: "/forgot" },
+    { icon: "chat", label: t("account.mHelp"), desc: t("account.mHelpDesc"), href: "/help" },
+    { icon: "doc", label: t("account.mTerms"), desc: t("account.mTermsDesc"), href: "/terms" },
   ];
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-lylac-900">Akun</h1>
+        <h1 className="text-2xl font-bold text-lylac-900">{t("account.title")}</h1>
         <p className="text-sm text-ink/60 mt-1">
-          Kelola profil dan preferensi akun kamu.
+          {t("account.subtitle")}
         </p>
       </div>
 
@@ -81,14 +83,14 @@ export default function AccountPage() {
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="Nama lengkap"
+                  placeholder={t("account.namePlaceholder")}
                   className="w-full rounded-lg border border-lylac-200 bg-white px-3 py-1.5 text-sm font-semibold text-lylac-900 focus:outline-none focus:ring-2 focus:ring-lylac-400"
                 />
                 <input
                   type="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  placeholder="Nomor HP (opsional)"
+                  placeholder={t("account.phonePlaceholder")}
                   className="w-full rounded-lg border border-lylac-200 bg-white px-3 py-1.5 text-xs text-ink focus:outline-none focus:ring-2 focus:ring-lylac-400"
                 />
               </div>
@@ -97,7 +99,7 @@ export default function AccountPage() {
                 <h2 className="text-lg font-bold text-lylac-900 truncate">{user.name}</h2>
                 <p className="text-sm text-ink/60 truncate">{user.email}</p>
                 <p className="text-xs text-ink/50 mt-0.5">
-                  Member sejak {user.joinedAt}
+                  {t("account.memberSince")} {user.joinedAt}
                 </p>
               </>
             )}
@@ -105,17 +107,17 @@ export default function AccountPage() {
           <div className="shrink-0">
             {editing ? (
               <div className="flex gap-1">
-                <Button size="sm" onClick={handleSave}>Simpan</Button>
+                <Button size="sm" onClick={handleSave}>{t("account.save")}</Button>
                 <Button size="sm" variant="outline" onClick={() => {
                   setName(user.name);
                   setPhone(user.phone || "");
                   setEditing(false);
-                }}>Batal</Button>
+                }}>{t("account.cancel")}</Button>
               </div>
             ) : (
               <Button size="sm" variant="outline" onClick={() => setEditing(true)}>
                 <Icon name="edit" className="h-4 w-4" />
-                Edit
+                {t("account.edit")}
               </Button>
             )}
           </div>
@@ -141,7 +143,7 @@ export default function AccountPage() {
               className="mt-3 flex items-center gap-1.5 text-sm text-lylac-600"
             >
               <Icon name="check" className="h-4 w-4" />
-              Profil berhasil disimpan
+              {t("account.savedToast")}
             </motion.div>
           )}
         </AnimatePresence>
@@ -185,7 +187,7 @@ export default function AccountPage() {
           onClick={() => setShowLogoutConfirm(true)}
         >
           <Icon name="logout" className="h-4 w-4" />
-          Keluar
+          {t("account.logout")}
         </Button>
       </div>
 
@@ -209,16 +211,16 @@ export default function AccountPage() {
               <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-lylac-100">
                 <Icon name="logout" className="h-6 w-6 text-lylac-600" />
               </div>
-              <h2 className="text-center text-lg font-bold text-lylac-900">Keluar dari akun?</h2>
+              <h2 className="text-center text-lg font-bold text-lylac-900">{t("account.logoutTitle")}</h2>
               <p className="mt-1 text-center text-sm text-ink/60">
-                Kamu perlu login lagi untuk mengakses dashboard. Data kamu tetap aman.
+                {t("account.logoutDesc")}
               </p>
               <div className="mt-6 flex gap-2">
                 <Button variant="outline" className="flex-1" onClick={() => setShowLogoutConfirm(false)}>
-                  Batal
+                  {t("account.logoutCancel")}
                 </Button>
                 <Button className="flex-1" onClick={handleLogout}>
-                  Keluar
+                  {t("account.logoutConfirm")}
                 </Button>
               </div>
             </motion.div>

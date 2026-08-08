@@ -1,20 +1,30 @@
-import Link from "next/link";
-import Icon from "./Icon";
+"use client";
 
-const links = {
-  Produk: [
-    { href: "/#destinations", label: "Destinasi" },
-    { href: "/#regional", label: "Paket Regional" },
-    { href: "/#how", label: "Cara Kerja" },
-  ],
-  Perusahaan: [
-    { href: "/#about", label: "Tentang" },
-    { href: "/#testimonials", label: "Testimoni" },
-    { href: "/login", label: "Masuk" },
-  ],
-};
+import Link from "next/link";
+import { motion } from "framer-motion";
+import Icon from "./Icon";
+import { useT } from "@/lib/i18n";
 
 export default function Footer() {
+  const t = useT();
+  const cols = [
+    {
+      title: t("footer.product"),
+      items: [
+        { href: "/#destinations", label: t("footer.linkDestinations") },
+        { href: "/#regional", label: t("footer.linkRegional") },
+        { href: "/#how", label: t("footer.linkHow") },
+      ],
+    },
+    {
+      title: t("footer.company"),
+      items: [
+        { href: "/#about", label: t("footer.linkAbout") },
+        { href: "/#testimonials", label: t("footer.linkTestimonials") },
+        { href: "/login", label: t("nav.login") },
+      ],
+    },
+  ];
   return (
     <footer className="border-t border-border bg-surface">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14">
@@ -28,22 +38,25 @@ export default function Footer() {
               <span className="text-lg font-bold text-hi">Trylo</span>
             </Link>
             <p className="text-sm text-lo leading-relaxed">
-              eSIM global untuk traveler modern. Internet di mana pun, tanpa kartu fisik.
+              {t("footer.tagline")}
             </p>
             <div className="flex gap-2">
               {["twitter", "instagram", "mail"].map((s) => (
-                <div
+                <motion.div
                   key={s}
+                  whileHover={{ scale: 1.12, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 15 }}
                   className="flex h-8 w-8 items-center justify-center rounded-lg glass-light hover:border-border-bright transition cursor-pointer"
                 >
                   <Icon name={s === "twitter" ? "globe" : s === "instagram" ? "heart" : "mail"} className="h-3.5 w-3.5 text-mid" />
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
 
           {/* Nav cols */}
-          {Object.entries(links).map(([title, items]) => (
+          {cols.map(({ title, items }) => (
             <div key={title}>
               <h4 className="text-xs font-semibold text-lo uppercase tracking-widest mb-4">
                 {title}
@@ -66,12 +79,12 @@ export default function Footer() {
           {/* Contact */}
           <div>
             <h4 className="text-xs font-semibold text-lo uppercase tracking-widest mb-4">
-              Bantuan
+              {t("footer.help")}
             </h4>
             <ul className="space-y-2.5">
               <li className="flex items-center gap-2 text-sm text-mid">
                 <Icon name="chat" className="h-3.5 w-3.5 text-lylac-600" />
-                Support 24/7
+                {t("footer.support247")}
               </li>
               <li className="flex items-center gap-2 text-sm text-mid">
                 <Icon name="mail" className="h-3.5 w-3.5 text-lylac-600" />
@@ -83,7 +96,7 @@ export default function Footer() {
 
         {/* Bottom */}
         <div className="mt-12 pt-6 border-t border-border flex flex-col sm:flex-row justify-between items-center gap-3">
-          <p className="text-xs text-lo">© 2026 Trylo. All rights reserved.</p>
+          <p className="text-xs text-lo">© 2026 Trylo. {t("footer.rights")}</p>
           <p className="text-xs text-lo flex items-center gap-1">
             Made with <Icon name="heart" className="inline h-3 w-3 text-lylac-500" /> in Indonesia
           </p>

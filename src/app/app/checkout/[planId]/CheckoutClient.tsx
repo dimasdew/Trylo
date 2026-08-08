@@ -10,6 +10,7 @@ import Button from "@/components/Button";
 import Flag from "@/components/Flag";
 import { plans, regionalPlans, getCountry, formatPrice } from "@/lib/data";
 import { useStore } from "@/lib/store";
+import { useT } from "@/lib/i18n";
 
 type PaymentMethod = {
   id: string;
@@ -19,19 +20,20 @@ type PaymentMethod = {
   fee: number;
 };
 
-const paymentMethods: PaymentMethod[] = [
-  { id: "qris", label: "QRIS", desc: "Scan dari bank / e-wallet apapun", icon: "qr", fee: 0 },
-  { id: "gopay", label: "GoPay", desc: "Saldo GoPay langsung", icon: "wallet", fee: 0 },
-  { id: "ovo", label: "OVO", desc: "Saldo OVO / OVO PayLater", icon: "wallet", fee: 0 },
-  { id: "cc", label: "Kartu Kredit", desc: "Visa / Mastercard / JCB", icon: "card", fee: 2000 },
-  { id: "va", label: "Virtual Account", desc: "BCA / Mandiri / BNI / BRI", icon: "bank", fee: 4000 },
-];
-
 export default function CheckoutClient() {
   const router = useRouter();
   const params = useParams();
   const { createOrder } = useStore();
+  const t = useT();
   const planId = params.planId as string;
+
+  const paymentMethods: PaymentMethod[] = [
+    { id: "qris", label: "QRIS", desc: t("checkout.mQris"), icon: "qr", fee: 0 },
+    { id: "gopay", label: "GoPay", desc: t("checkout.mGopay"), icon: "wallet", fee: 0 },
+    { id: "ovo", label: "OVO", desc: t("checkout.mOvo"), icon: "wallet", fee: 0 },
+    { id: "cc", label: t("checkout.mCc"), desc: t("checkout.mCcDesc"), icon: "card", fee: 2000 },
+    { id: "va", label: t("checkout.mVa"), desc: t("checkout.mVaDesc"), icon: "bank", fee: 4000 },
+  ];
 
   const plan = plans.find((p) => p.id === planId) || regionalPlans.find((p) => p.id === planId);
   const country = plan ? getCountry(plan.countryId) : undefined;
@@ -49,10 +51,10 @@ export default function CheckoutClient() {
         <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-lylac-100">
           <Icon name="alert" className="h-8 w-8 text-lylac-600" />
         </div>
-        <h1 className="text-xl font-bold text-lylac-900">Paket tidak ditemukan</h1>
-        <p className="mt-2 text-sm text-ink/60">Paket yang kamu cari tidak tersedia.</p>
+        <h1 className="text-xl font-bold text-lylac-900">{t("checkout.notFound")}</h1>
+        <p className="mt-2 text-sm text-ink/60">{t("checkout.notFoundDesc")}</p>
         <Link href="/app/plans" className="mt-6 inline-block">
-          <Button variant="primary">← Kembali cari paket</Button>
+          <Button variant="primary">{t("checkout.backToPlans")}</Button>
         </Link>
       </div>
     );
@@ -67,14 +69,14 @@ export default function CheckoutClient() {
     setVoucherError("");
     const code = voucherCode.trim().toUpperCase();
     if (!code) {
-      setVoucherError("Masukkan kode voucher dulu");
+      setVoucherError(t("checkout.voucherEmpty"));
       return;
     }
     if (code === "TRYLO10") {
       setVoucherApplied(true);
       setVoucherError("");
     } else {
-      setVoucherError("Kode voucher tidak valid. Coba: TRYLO10");
+      setVoucherError(t("checkout.voucherInvalid"));
       setVoucherApplied(false);
     }
   };
@@ -117,9 +119,9 @@ export default function CheckoutClient() {
     <div className="max-w-2xl mx-auto">
       {/* Breadcrumb */}
       <div className="mb-4 flex items-center gap-2 text-sm text-ink/50">
-        <Link href="/app/plans" className="hover:text-lylac-600">Paket</Link>
+        <Link href="/app/plans" className="hover:text-lylac-600">{t("checkout.crumbPlans")}</Link>
         <span>/</span>
-        <span className="text-lylac-700">Checkout</span>
+        <span className="text-lylac-700">{t("checkout.crumbCheckout")}</span>
       </div>
 
       {/* Progress steps */}
@@ -170,7 +172,7 @@ export default function CheckoutClient() {
                     <span className="rounded-full bg-lylac-50 px-2 py-0.5 text-xs text-lylac-700">{plan.data}</span>
                     <span className="rounded-full bg-lylac-50 px-2 py-0.5 text-xs text-lylac-700">{plan.duration}</span>
                     {plan.hotspot && (
-                      <span className="rounded-full bg-lylac-50 px-2 py-0.5 text-xs text-lylac-700">Hotspot</span>
+                      <span className="rounded-full bg-lylac-50 px-2 py-0.5 text-xs text-lylac-700">{t("checkout.hotspot")}</span>
                     )}
                   </div>
                 </div>
@@ -180,7 +182,7 @@ export default function CheckoutClient() {
               </div>
 
               <div className="mt-4 border-t border-lylac-100 pt-4">
-                <p className="text-xs font-medium text-lylac-900 mb-2">Termasuk:</p>
+                <p className="text-xs font-medium text-lylac-900 mb-2">{t("checkout.included")}</p>
                 <ul className="space-y-1">
                   {plan.features.map((f) => (
                     <li key={f} className="flex items-center gap-2 text-sm text-ink/70">
@@ -194,7 +196,7 @@ export default function CheckoutClient() {
 
             {/* Voucher */}
             <div className="rounded-2xl bg-white border border-lylac-100 p-4 shadow-sm">
-              <label className="block text-sm font-medium text-lylac-900 mb-2">Kode Voucher</label>
+              <label className="block text-sm font-medium text-lylac-900 mb-2">{t("checkout.voucherLabel")}</label>
               <div className="flex gap-2">
                 <input
                   type="text"
@@ -204,7 +206,7 @@ export default function CheckoutClient() {
                     setVoucherApplied(false);
                     setVoucherError("");
                   }}
-                  placeholder="Coba: TRYLO10"
+                  placeholder={t("checkout.voucherPlaceholder")}
                   disabled={voucherApplied}
                   className="flex-1 rounded-xl border border-lylac-200 bg-white px-3 py-2 text-sm text-ink placeholder:text-ink/30 focus:outline-none focus:ring-2 focus:ring-lylac-400 disabled:bg-lylac-50"
                 />
@@ -214,7 +216,7 @@ export default function CheckoutClient() {
                   onClick={applyVoucher}
                   disabled={voucherApplied}
                 >
-                  {voucherApplied ? "Aktif" : "Pakai"}
+                  {voucherApplied ? t("checkout.voucherApplied") : t("checkout.voucherApply")}
                 </Button>
               </div>
               {voucherError && (
@@ -223,7 +225,7 @@ export default function CheckoutClient() {
               {voucherApplied && (
                 <p className="mt-2 text-xs text-lylac-600 flex items-center gap-1">
                   <Icon name="check" className="h-3.5 w-3.5" />
-                  Voucher aktif — diskon 10%
+                  {t("checkout.voucherActive")}
                 </p>
               )}
             </div>
@@ -231,23 +233,23 @@ export default function CheckoutClient() {
             {/* Price summary */}
             <div className="rounded-2xl bg-white border border-lylac-100 p-4 shadow-sm space-y-2">
               <div className="flex justify-between text-sm">
-                <span className="text-ink/60">Paket {plan.data}</span>
+                <span className="text-ink/60">{t("checkout.pkgLabel")} {plan.data}</span>
                 <span className="text-ink/80">{formatPrice(plan.price)}</span>
               </div>
               {voucherApplied && (
                 <div className="flex justify-between text-sm text-lylac-600">
-                  <span>Diskon voucher (10%)</span>
+                  <span>{t("checkout.voucherDiscount")}</span>
                   <span>-{formatPrice(voucherDiscount)}</span>
                 </div>
               )}
               <div className="border-t border-lylac-100 pt-2 flex justify-between text-base font-bold">
-                <span className="text-lylac-900">Total</span>
+                <span className="text-lylac-900">{t("checkout.total")}</span>
                 <span className="text-lylac-900">{formatPrice(total)}</span>
               </div>
             </div>
 
             <Button onClick={() => setStep("payment")} className="w-full" size="lg">
-              Lanjut ke Pembayaran
+              {t("checkout.continueToPayment")}
             </Button>
           </motion.div>
         )}
@@ -262,8 +264,8 @@ export default function CheckoutClient() {
             className="space-y-4"
           >
             <div>
-              <h1 className="text-lg font-bold text-lylac-900">Pilih Metode Pembayaran</h1>
-              <p className="text-sm text-ink/60">Pembayaran diproses aman via Trylo Pay</p>
+              <h1 className="text-lg font-bold text-lylac-900">{t("checkout.choosePayment")}</h1>
+              <p className="text-sm text-ink/60">{t("checkout.paymentSecure")}</p>
             </div>
 
             <div className="space-y-2">
@@ -308,26 +310,26 @@ export default function CheckoutClient() {
               </div>
               {voucherApplied && (
                 <div className="flex justify-between text-sm text-lylac-600">
-                  <span>Diskon voucher</span>
+                  <span>{t("checkout.voucherDiscountShort")}</span>
                   <span>-{formatPrice(voucherDiscount)}</span>
                 </div>
               )}
               <div className="flex justify-between text-sm">
-                <span className="text-ink/60">Biaya admin ({method.label})</span>
-                <span className="text-ink/80">{adminFee === 0 ? "Gratis" : formatPrice(adminFee)}</span>
+                <span className="text-ink/60">{t("checkout.adminFee")} ({method.label})</span>
+                <span className="text-ink/80">{adminFee === 0 ? t("checkout.free") : formatPrice(adminFee)}</span>
               </div>
               <div className="border-t border-lylac-200 pt-2 flex justify-between text-base font-bold">
-                <span className="text-lylac-900">Total Bayar</span>
+                <span className="text-lylac-900">{t("checkout.totalPay")}</span>
                 <span className="text-lylac-900">{formatPrice(total)}</span>
               </div>
             </div>
 
             <div className="flex gap-2">
               <Button variant="outline" onClick={() => setStep("review")} className="flex-1">
-                ← Kembali
+                {t("checkout.back")}
               </Button>
               <Button onClick={handlePay} className="flex-1" size="lg">
-                Bayar {formatPrice(total)}
+                {t("checkout.payAmount")} {formatPrice(total)}
               </Button>
             </div>
           </motion.div>
@@ -349,9 +351,9 @@ export default function CheckoutClient() {
             >
               <Icon name="loader" className="h-8 w-8 text-lylac-600" />
             </motion.div>
-            <h1 className="text-xl font-bold text-lylac-900">Memproses Pembayaran...</h1>
+            <h1 className="text-xl font-bold text-lylac-900">{t("checkout.processingTitle")}</h1>
             <p className="mt-2 text-sm text-ink/60">
-              Jangan tutup halaman ini. eSIM kamu sedang disiapkan.
+              {t("checkout.processingDesc")}
             </p>
           </motion.div>
         )}
@@ -372,10 +374,9 @@ export default function CheckoutClient() {
             >
               <Icon name="check" className="h-10 w-10 text-white" />
             </motion.div>
-            <h1 className="text-2xl font-bold text-lylac-900">Pembayaran Berhasil!</h1>
+            <h1 className="text-2xl font-bold text-lylac-900">{t("checkout.successTitle")}</h1>
             <p className="mt-2 text-sm text-ink/60 max-w-sm mx-auto">
-              eSIM {planName} berhasil dipesan. Scan QR code di bawah untuk install, atau
-              buka halaman pesanan untuk detail lengkap.
+              eSIM {planName} {t("checkout.successBody")}
             </p>
 
             {/* Mini QR preview */}
@@ -386,15 +387,15 @@ export default function CheckoutClient() {
                 level="M"
                 includeMargin
               />
-              <p className="mt-2 text-xs text-center text-ink/50">Scan untuk install eSIM</p>
+              <p className="mt-2 text-xs text-center text-ink/50">{t("checkout.scanToInstall")}</p>
             </div>
 
             <div className="mt-8 flex flex-col sm:flex-row gap-2 justify-center">
               <Link href={`/app/orders/${createdOrderId}`}>
-                <Button className="w-full sm:w-auto">Lihat Pesanan</Button>
+                <Button className="w-full sm:w-auto">{t("checkout.viewOrder")}</Button>
               </Link>
               <Link href="/app/orders">
-                <Button variant="outline" className="w-full sm:w-auto">Semua Pesanan</Button>
+                <Button variant="outline" className="w-full sm:w-auto">{t("checkout.allOrders")}</Button>
               </Link>
             </div>
           </motion.div>

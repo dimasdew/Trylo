@@ -9,9 +9,11 @@ import Icon from "@/components/Icon";
 import Button from "@/components/Button";
 import Flag from "@/components/Flag";
 import { getPlan, getCountry, formatPrice } from "@/lib/data";
+import { useT } from "@/lib/i18n";
 
 export default function PlanDetailPage() {
   const { id } = useParams<{ id: string }>();
+  const t = useT();
   const plan = getPlan(id);
   const [quantity] = useState(1);
 
@@ -34,7 +36,7 @@ export default function PlanDetailPage() {
         className="inline-flex items-center gap-1.5 text-sm text-lylac-600 hover:underline"
       >
         <Icon name="arrow" className="h-4 w-4 rotate-180" />
-        Kembali ke daftar paket
+        {t("plan.backToPlans")}
       </Link>
 
       <div className="grid gap-6 lg:grid-cols-3">
@@ -60,7 +62,7 @@ export default function PlanDetailPage() {
               </div>
               {plan.bestseller && (
                 <span className="shrink-0 rounded-full bg-lylac-600 px-3 py-1 text-xs font-semibold text-white">
-                  Best Seller
+                  {t("plan.bestSeller")}
                 </span>
               )}
             </div>
@@ -69,31 +71,31 @@ export default function PlanDetailPage() {
               <div>
                 <div className="flex items-center gap-1.5 text-ink/50 mb-1">
                   <Icon name="signal" className="h-4 w-4 text-lylac-500" />
-                  <span className="text-xs">Kuota</span>
+                  <span className="text-xs">{t("plan.quota")}</span>
                 </div>
                 <p className="font-bold text-lylac-900">{plan.data}</p>
               </div>
               <div>
                 <div className="flex items-center gap-1.5 text-ink/50 mb-1">
                   <Icon name="clock" className="h-4 w-4 text-lylac-500" />
-                  <span className="text-xs">Durasi</span>
+                  <span className="text-xs">{t("plan.duration")}</span>
                 </div>
                 <p className="font-bold text-lylac-900">{plan.duration}</p>
               </div>
               <div>
                 <div className="flex items-center gap-1.5 text-ink/50 mb-1">
                   <Icon name="wifi" className="h-4 w-4 text-lylac-500" />
-                  <span className="text-xs">Hotspot</span>
+                  <span className="text-xs">{t("plan.hotspot")}</span>
                 </div>
                 <p className="font-bold text-lylac-900">
-                  {plan.hotspot ? "Tersedia" : "Tidak"}
+                  {plan.hotspot ? t("plan.hotspotYesShort") : t("plan.hotspotNoShort")}
                 </p>
               </div>
             </div>
 
             <div className="mt-6">
               <h2 className="text-sm font-semibold text-lylac-900 mb-3">
-                Yang kamu dapat
+                {t("plan.whatYouGet")}
               </h2>
               <ul className="space-y-3">
                 {plan.features.map((f) => (
@@ -111,14 +113,14 @@ export default function PlanDetailPage() {
           {/* HOW TO */}
           <div className="rounded-2xl border border-lylac-100 bg-lylac-50/50 p-6">
             <h2 className="text-sm font-semibold text-lylac-900 mb-4">
-              Cara aktivasi
+              {t("plan.howTo")}
             </h2>
             <ol className="space-y-3">
               {[
-                "Beli paket dan terima QR code via email",
-                "Buka Settings → Cellular → Add eSIM di iPhone, atau Settings → Network → SIM → Add di Android",
-                "Scan QR code atau masukkan manual activation code",
-                "Aktifkan roaming data. Selesai!",
+                t("plan.step1"),
+                t("plan.step2"),
+                t("plan.step3"),
+                t("plan.step4"),
               ].map((step, i) => (
                 <li key={i} className="flex items-start gap-3">
                   <span className="flex h-6 w-6 items-center justify-center rounded-full bg-lylac-600 text-xs font-bold text-white shrink-0">
@@ -140,44 +142,46 @@ export default function PlanDetailPage() {
             className="sticky top-20 rounded-2xl border border-lylac-200 bg-white p-6 shadow-soft"
           >
             <div className="text-center mb-6">
-              <p className="text-xs text-ink/50 mb-1">Total harga</p>
+              <p className="text-xs text-ink/50 mb-1">{t("plan.totalPrice")}</p>
               <p className="text-3xl font-bold text-lylac-900">
                 {formatPrice(plan.price * quantity, plan.currency)}
               </p>
               <p className="text-xs text-ink/50 mt-1">
-                Sekali bayar, tanpa biaya tersembunyi
+                {t("plan.oneTime")}
               </p>
             </div>
 
             <div className="space-y-3 mb-6 text-sm">
               <div className="flex items-center justify-between">
-                <span className="text-ink/60">Operator</span>
+                <span className="text-ink/60">{t("plan.operator")}</span>
                 <span className="font-medium text-lylac-900">{plan.operator}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-ink/60">Negara</span>
+                <span className="text-ink/60">{t("plan.country")}</span>
                 <span className="font-medium text-lylac-900">
                   {countryName}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-ink/60">Berlaku</span>
+                <span className="text-ink/60">{t("plan.validityLabel")}</span>
                 <span className="font-medium text-lylac-900">{plan.duration}</span>
               </div>
             </div>
 
-            <Link href={`/app/checkout/${plan.id}`} className="block">
-              <Button className="w-full" size="lg">
-                <Icon name="cart" className="h-5 w-5" />
-                Beli Sekarang
-              </Button>
-            </Link>
+            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+              <Link href={`/app/checkout/${plan.id}`} className="block">
+                <Button className="w-full" size="lg">
+                  <Icon name="cart" className="h-5 w-5" />
+                  {t("plan.buyNow")}
+                </Button>
+              </Link>
+            </motion.div>
 
             <div className="mt-4 space-y-2">
               {[
-                "Pembayaran aman & encrypted",
-                "QR code dikirim instan ke email",
-                "Garansi refund 100% jika belum dipakai",
+                t("plan.trustSecure"),
+                t("plan.qrInstant"),
+                t("plan.trustRefund"),
               ].map((item) => (
                 <div
                   key={item}

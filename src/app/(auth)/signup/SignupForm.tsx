@@ -7,10 +7,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import Icon from "@/components/Icon";
 import Button from "@/components/Button";
 import { useStore } from "@/lib/store";
+import { useT } from "@/lib/i18n";
 
 export default function SignupForm() {
   const router = useRouter();
   const { signup } = useStore();
+  const t = useT();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,14 +23,14 @@ export default function SignupForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    if (!name.trim() || name.trim().length < 2) { setError("Nama minimal 2 karakter"); return; }
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError("Format email tidak valid"); return; }
-    if (password.length < 8) { setError("Password minimal 8 karakter"); return; }
+    if (!name.trim() || name.trim().length < 2) { setError(t("auth.errNameShort")); return; }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError(t("auth.errEmailInvalid")); return; }
+    if (password.length < 8) { setError(t("auth.errPassShort")); return; }
     setLoading(true);
     setTimeout(() => {
       const result = signup(name.trim(), email, password);
       if (result.ok) router.push("/app");
-      else { setError(result.error || "Gagal mendaftar"); setLoading(false); }
+      else { setError(result.error || t("auth.errSignupFailed")); setLoading(false); }
     }, 700);
   };
 
@@ -37,31 +39,31 @@ export default function SignupForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="block text-xs font-medium text-mid mb-1.5 uppercase tracking-wider">Nama Lengkap</label>
+        <label className="block text-xs font-medium text-mid mb-1.5 uppercase tracking-wider">{t("auth.nameLabel")}</label>
         <div className="relative">
           <Icon name="user" className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-lo" />
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Nama kamu" className={inputCls} />
+          <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder={t("auth.namePlaceholderShort")} className={inputCls} />
         </div>
       </div>
 
       <div>
-        <label className="block text-xs font-medium text-mid mb-1.5 uppercase tracking-wider">Email</label>
+        <label className="block text-xs font-medium text-mid mb-1.5 uppercase tracking-wider">{t("auth.emailLabel")}</label>
         <div className="relative">
           <Icon name="mail" className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-lo" />
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="kamu@email.com" className={inputCls} />
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder={t("auth.emailPlaceholder")} className={inputCls} />
         </div>
       </div>
 
       <div>
-        <label className="block text-xs font-medium text-mid mb-1.5 uppercase tracking-wider">Password</label>
+        <label className="block text-xs font-medium text-mid mb-1.5 uppercase tracking-wider">{t("auth.passwordLabel")}</label>
         <div className="relative">
           <Icon name="lock" className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-lo" />
-          <input type={showPass ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Minimal 8 karakter" minLength={8} className={`${inputCls} pr-10`} />
+          <input type={showPass ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} placeholder={t("auth.passHint8")} minLength={8} className={`${inputCls} pr-10`} />
           <button type="button" onClick={() => setShowPass(!showPass)} className="absolute right-3 top-1/2 -translate-y-1/2 text-lo hover:text-mid transition">
             <Icon name={showPass ? "eyeOff" : "eye"} className="h-4 w-4" />
           </button>
         </div>
-        <p className="mt-1.5 text-xs text-lo">8+ karakter, kombinasi huruf dan angka.</p>
+        <p className="mt-1.5 text-xs text-lo">{t("auth.passHelp")}</p>
       </div>
 
       <AnimatePresence>
@@ -76,17 +78,17 @@ export default function SignupForm() {
       <label className="flex items-start gap-2.5 text-xs text-mid cursor-pointer">
         <input type="checkbox" required className="mt-0.5 rounded border-border-bright text-lylac-600 focus:ring-lylac-300" />
         <span>
-          Saya setuju dengan{" "}
-          <Link href="/terms" className="text-lylac-600 hover:text-lylac-500 transition-colors">Syarat & Ketentuan</Link>
-          {" "}dan{" "}
-          <Link href="/privacy" className="text-lylac-600 hover:text-lylac-500 transition-colors">Kebijakan Privasi</Link>
+          {t("auth.agreeTo")}{" "}
+          <Link href="/terms" className="text-lylac-600 hover:text-lylac-500 transition-colors">{t("auth.terms")}</Link>
+          {" "}{t("auth.and")}{" "}
+          <Link href="/privacy" className="text-lylac-600 hover:text-lylac-500 transition-colors">{t("auth.privacy")}</Link>
         </span>
       </label>
 
       <Button type="submit" className="w-full" size="lg" disabled={loading}>
         {loading ? (
-          <><Icon name="loader" className="h-4 w-4 animate-spin" /> Membuat akun...</>
-        ) : "Daftar Sekarang"}
+          <><Icon name="loader" className="h-4 w-4 animate-spin" /> {t("auth.creatingAccount")}</>
+        ) : t("auth.signupBtn")}
       </Button>
     </form>
   );

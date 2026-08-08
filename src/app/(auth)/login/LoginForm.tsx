@@ -7,11 +7,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import Icon from "@/components/Icon";
 import Button from "@/components/Button";
 import { useStore } from "@/lib/store";
+import { useT } from "@/lib/i18n";
 
 export default function LoginForm() {
   const router = useRouter();
   const params = useSearchParams();
   const { login } = useStore();
+  const t = useT();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
@@ -23,12 +25,12 @@ export default function LoginForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    if (!email || !password) { setError("Email dan password wajib diisi"); return; }
+    if (!email || !password) { setError(t("auth.errRequired")); return; }
     setLoading(true);
     setTimeout(() => {
       const result = login(email, password);
       if (result.ok) router.push(fromPath);
-      else { setError(result.error || "Gagal masuk"); setLoading(false); }
+      else { setError(result.error || t("auth.errLoginFailed")); setLoading(false); }
     }, 500);
   };
 
@@ -45,21 +47,21 @@ export default function LoginForm() {
         whileTap={{ scale: 0.98 }}
         className="w-full bg-lylac-50 rounded-[var(--radius-md)] border border-dashed border-lylac-200 px-4 py-2.5 text-xs text-mid hover:text-hi hover:border-lylac-300 transition text-left"
       >
-        <span className="font-medium text-hi">Demo account — klik untuk isi otomatis</span>
+        <span className="font-medium text-hi">{t("auth.demoFill")}</span>
         <br />
         <span className="text-lo">dimas@trylo.id / trylo123</span>
       </motion.button>
 
       <div>
-        <label className="block text-xs font-medium text-mid mb-1.5 uppercase tracking-wider">Email</label>
+        <label className="block text-xs font-medium text-mid mb-1.5 uppercase tracking-wider">{t("auth.emailLabel")}</label>
         <div className="relative">
           <Icon name="mail" className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-lo" />
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="kamu@email.com" className={inputCls} />
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder={t("auth.emailPlaceholder")} className={inputCls} />
         </div>
       </div>
 
       <div>
-        <label className="block text-xs font-medium text-mid mb-1.5 uppercase tracking-wider">Password</label>
+        <label className="block text-xs font-medium text-mid mb-1.5 uppercase tracking-wider">{t("auth.passwordLabel")}</label>
         <div className="relative">
           <Icon name="lock" className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-lo" />
           <input type={showPass ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" className={`${inputCls} pr-10`} />
@@ -81,15 +83,15 @@ export default function LoginForm() {
       <div className="flex items-center justify-between text-xs">
         <label className="flex items-center gap-2 text-mid cursor-pointer">
           <input type="checkbox" className="rounded border-border-bright text-lylac-600 focus:ring-lylac-300" />
-          Ingat saya
+          {t("auth.rememberMe")}
         </label>
-        <Link href="/forgot" className="text-lylac-600 hover:text-lylac-500 transition-colors">Lupa password?</Link>
+        <Link href="/forgot" className="text-lylac-600 hover:text-lylac-500 transition-colors">{t("auth.forgotPassword")}</Link>
       </div>
 
       <Button type="submit" className="w-full" size="lg" disabled={loading}>
         {loading ? (
           <><Icon name="loader" className="h-4 w-4 animate-spin" /> Memproses...</>
-        ) : "Masuk"}
+        ) : t("auth.loginBtn")}
       </Button>
     </form>
   );
