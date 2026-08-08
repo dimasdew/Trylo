@@ -68,7 +68,7 @@ export default function AccountPage() {
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        className="rounded-3xl border border-lylac-100 bg-white p-6 shadow-soft"
+        className="rounded-2xl border border-lylac-100 bg-white p-6 shadow-soft"
       >
         <div className="flex items-center gap-4">
           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-lylac-600 text-white text-xl font-bold shrink-0">

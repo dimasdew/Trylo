@@ -80,7 +80,7 @@ const radiusTokens = [
   { name: "rounded-lg",  px: "8px",  label: "Small — badges" },
   { name: "rounded-xl",  px: "12px", label: "Base — inputs, buttons" },
   { name: "rounded-2xl", px: "16px", label: "Card" },
-  { name: "rounded-3xl", px: "24px", label: "Large card, CTA" },
+  { name: "rounded-2xl", px: "24px", label: "Large card, CTA" },
 ];
 
 /* ─── Motion tokens ─── */

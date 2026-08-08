@@ -19,7 +19,7 @@ export default function ForgotPage() {
           <span className="text-xl font-bold text-hi">Trylo</span>
         </Link>
 
-        <div className="glass-card rounded-3xl p-8 shadow-card">
+        <div className="glass-card rounded-2xl p-8 shadow-card">
           <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-lylac-300 to-transparent rounded-t-3xl" />
           <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-lylac-50 border border-lylac-100">
             <Icon name="lock" className="h-7 w-7 text-lylac-600" />

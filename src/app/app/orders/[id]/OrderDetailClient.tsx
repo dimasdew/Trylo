@@ -87,7 +87,7 @@ export default function OrderDetailClient() {
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        className="rounded-3xl border border-lylac-100 bg-white p-6 shadow-soft"
+        className="rounded-2xl border border-lylac-100 bg-white p-6 shadow-soft"
       >
         <div className="flex items-start justify-between mb-6 gap-4">
           <div className="flex items-center gap-4 min-w-0">

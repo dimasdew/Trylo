@@ -26,7 +26,7 @@ export default function Flag({ flag, className = "" }: Props) {
   if (flag === "globe") {
     return (
       <span
-        className={`inline-flex items-center justify-center rounded-md bg-lylac-50 border border-lylac-100 text-lylac-600 ${size} ${rest}`}
+        className={`inline-flex items-center justify-center rounded-lg bg-lylac-50 border border-lylac-100 text-lylac-600 ${size} ${rest}`}
       >
         <Icon name="globe" className="h-4 w-4" />
       </span>
@@ -37,7 +37,7 @@ export default function Flag({ flag, className = "" }: Props) {
     <img
       src={`https://flagcdn.com/${flag}.svg`}
       alt={flag}
-      className={`inline-block rounded-md object-cover border border-border ${size} ${rest}`}
+      className={`inline-block rounded-lg object-cover border border-border ${size} ${rest}`}
       loading="lazy"
     />
   );

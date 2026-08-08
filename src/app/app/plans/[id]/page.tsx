@@ -43,7 +43,7 @@ export default function PlanDetailPage() {
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            className="rounded-3xl border border-lylac-100 bg-white p-6 shadow-soft"
+            className="rounded-2xl border border-lylac-100 bg-white p-6 shadow-soft"
           >
             <div className="flex items-start justify-between mb-6 gap-4">
               <div className="flex items-center gap-4 min-w-0">
@@ -109,7 +109,7 @@ export default function PlanDetailPage() {
           </motion.div>
 
           {/* HOW TO */}
-          <div className="rounded-3xl border border-lylac-100 bg-lylac-50/50 p-6">
+          <div className="rounded-2xl border border-lylac-100 bg-lylac-50/50 p-6">
             <h2 className="text-sm font-semibold text-lylac-900 mb-4">
               Cara aktivasi
             </h2>
@@ -137,7 +137,7 @@ export default function PlanDetailPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="sticky top-20 rounded-3xl border border-lylac-200 bg-white p-6 shadow-soft"
+            className="sticky top-20 rounded-2xl border border-lylac-200 bg-white p-6 shadow-soft"
           >
             <div className="text-center mb-6">
               <p className="text-xs text-ink/50 mb-1">Total harga</p>

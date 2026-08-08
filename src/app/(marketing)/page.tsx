@@ -231,7 +231,7 @@ export default function HomePage() {
       <section id="about" className="py-24 relative">
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-          <div className="glass-card rounded-3xl p-8 sm:p-12 shadow-card relative overflow-hidden">
+          <div className="glass-card rounded-2xl p-8 sm:p-12 shadow-card relative overflow-hidden">
             <div className="absolute inset-0 bg-grid opacity-40" />
             <div className="absolute -right-20 -top-20 w-80 h-80 orb-v opacity-20 blur-3xl" />
             <div className="relative text-center">
@@ -262,7 +262,7 @@ export default function HomePage() {
       <section className="py-24 relative">
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-lylac-600 via-lylac-700 to-lylac-800 p-10 sm:p-16 text-center">
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-lylac-600 via-lylac-700 to-lylac-800 p-10 sm:p-16 text-center">
             <div className="absolute inset-0 bg-grid opacity-30" />
             <div className="absolute top-0 left-1/2 w-96 h-64 orb-v opacity-40 blur-3xl -translate-x-1/2 -translate-y-1/2" />
             <div className="absolute bottom-0 right-0 w-64 h-64 orb-c opacity-20 blur-3xl translate-x-1/2 translate-y-1/2" />
