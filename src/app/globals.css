@@ -1,26 +1,249 @@
 @import "tailwindcss";
 
+@theme {
+  /* ─── Lylac palette (brand accent) ─── */
+  --color-lylac-50:  #f8f6fc;
+  --color-lylac-100: #efeaf8;
+  --color-lylac-200: #ded2f0;
+  --color-lylac-300: #c5b0e4;
+  --color-lylac-400: #a988d5;
+  --color-lylac-500: #9166c7;
+  --color-lylac-600: #7c4bb4;
+  --color-lylac-700: #683c96;
+  --color-lylac-800: #56327b;
+  --color-lylac-900: #452a62;
+  --color-lylac-950: #2b1840;
+
+  /* ─── Alias v-* → lylac (kompat halaman yang pakai vocab baru) ─── */
+  --color-v-50:  #f8f6fc;
+  --color-v-100: #efeaf8;
+  --color-v-200: #ded2f0;
+  --color-v-300: #c5b0e4;
+  --color-v-400: #a988d5;
+  --color-v-500: #9166c7;
+  --color-v-600: #7c4bb4;
+  --color-v-700: #683c96;
+  --color-v-800: #56327b;
+  --color-v-900: #452a62;
+  --color-v-950: #2b1840;
+
+  /* Secondary accents — dipakai hemat */
+  --color-c-400: #0e9db8;
+  --color-c-500: #0b8aa2;
+  --color-p-400: #c65ec9;
+  --color-p-500: #b04ab3;
+
+  /* ─── Light surfaces (Mobbin-like) ─── */
+  --color-base:    #ffffff;
+  --color-surface: #faf9fc;
+  --color-panel:   #ffffff;
+  --color-border:  #ece8f3;
+  --color-border-bright: #ded7ec;
+
+  /* ─── Text ─── */
+  --color-hi:  #191521;
+  --color-mid: #5d5768;
+  --color-lo:  #9b94a8;
+  --color-ink: #191521;
+
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+
+  /* ─── Design-system tokens (DESIGN-SYSTEM.md) ─── */
+  --space-1: 4px;    --space-2: 8px;    --space-3: 12px;
+  --space-4: 16px;   --space-5: 20px;   --space-6: 24px;
+  --space-8: 32px;   --space-10: 40px;  --space-12: 48px;
+  --space-16: 64px;  --space-20: 80px;  --space-32: 128px;
+
+  --text-2xs: 10px;  --text-xs: 12px;   --text-sm: 14px;
+  --text-base: 16px; --text-lg: 18px;
+  --text-xl: 22px;   --text-2xl: 28px;
+
+  --radius-sm: 8px;  --radius-md: 12px; --radius-lg: 16px;
+  --radius-full: 999px;
+
+  --dur-fast: 150ms; --dur-base: 250ms; --dur-slow: 400ms;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --container: 1200px;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 24px 48px rgba(0, 0, 0, 0.24);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
+  border-color: var(--color-border);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-base);
+  color: var(--color-hi);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+}
+
+::selection {
+  background: rgba(145, 102, 199, 0.25);
+  color: var(--color-hi);
+}
+
+/* ─── Dark mode: override surface + text tokens ─── */
+.dark {
+  color-scheme: dark;
+  --color-base:    #100d16;
+  --color-surface: #171320;
+  --color-panel:   #1d1826;
+  --color-border:  #2a2435;
+  --color-border-bright: #372f47;
+  --color-hi:  #f4f2f8;
+  --color-mid: #a9a2b8;
+  --color-lo:  #726a82;
+  --color-ink: #f4f2f8;
+  /* softer lylac tints so accents read on dark */
+  --color-lylac-50:  #1e1730;
+  --color-lylac-100: #291e42;
+  --color-lylac-200: #382a58;
+}
+.dark body { background: var(--color-base); }
+.dark .glass { background: rgba(23, 19, 32, 0.85); }
+/* flip hardcoded white surfaces used across cards/headers */
+.dark .bg-white { background-color: var(--color-panel) !important; }
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-border-bright); border-radius: 4px; }
+
+@layer utilities {
+  /* ─── "Glass" → clean light surfaces (nama dipertahankan utk kompat) ─── */
+  .glass {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px) saturate(160%);
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
+    border: 1px solid var(--color-border);
+  }
+  .glass-light {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+  }
+  .glass-card {
+    background: var(--color-panel);
+    border: 1px solid var(--color-border);
+  }
+
+  /* ─── Elevasi: 3 level saja ─── */
+  .shadow-soft  { box-shadow: var(--shadow-sm); }
+  .shadow-card  { box-shadow: var(--shadow-sm); }
+  .shadow-glow  { box-shadow: var(--shadow-md); }
+  .glow-v       { box-shadow: var(--shadow-md); border-color: var(--color-border-bright) !important; }
+  .glow-v-sm    { box-shadow: var(--shadow-sm); }
+  .glow-c       { box-shadow: var(--shadow-sm); }
+  .border-glow  { border-color: var(--color-lylac-300) !important; }
+
+  /* ─── Text gradient — satu-satunya flourish yang dipertahankan ─── */
+  .text-gradient {
+    background: linear-gradient(135deg, #9166c7 0%, #7c4bb4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .text-gradient-pink {
+    background: linear-gradient(135deg, #b04ab3 0%, #9166c7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ─── Bg helpers ─── */
+  .bg-grid,
+  .bg-grid-lylac {
+    background-image:
+      linear-gradient(to right, rgba(124, 75, 180, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(124, 75, 180, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .bg-noise { background-image: none; }
+
+  /* ─── Orbs → very soft lylac wash ─── */
+  .orb-v { background: radial-gradient(ellipse, rgba(145, 102, 199, 0.12) 0%, transparent 70%); }
+  .orb-c { background: radial-gradient(ellipse, rgba(14, 157, 184, 0.07) 0%, transparent 70%); }
+  .orb-p { background: radial-gradient(ellipse, rgba(176, 74, 179, 0.07) 0%, transparent 70%); }
+
+  /* ─── Pill badge ─── */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-mid);
+  }
+  .badge-v {
+    border-color: var(--color-lylac-200);
+    background: var(--color-lylac-50);
+    color: var(--color-lylac-700);
+  }
+  .badge-c {
+    border-color: #c7e8ef;
+    background: #f0fafc;
+    color: var(--color-c-500);
+  }
+
+  .text-balance { text-wrap: balance; }
+  .text-pretty  { text-wrap: pretty; }
+}
+
+/* ─── Keyframes ─── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+
+.animate-fade-up   { animation: fade-up var(--dur-slow) var(--ease) forwards; }
+.animate-fade-in   { animation: fade-in var(--dur-base) ease-out forwards; }
+.animate-float     { animation: float 5s ease-in-out infinite; }
+.animate-pulse-dot { animation: pulse-dot 1.8s ease-in-out infinite; }
+
+.delay-75  { animation-delay: 0.075s; }
+.delay-100 { animation-delay: 0.1s; }
+.delay-150 { animation-delay: 0.15s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-500 { animation-delay: 0.5s; }
+.delay-700 { animation-delay: 0.7s; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
