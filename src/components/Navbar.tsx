@@ -8,10 +8,10 @@ import { ThemeToggle, LangToggle } from "./PrefToggles";
 import { useT } from "@/lib/i18n";
 
 const navLinks = [
-  { href: "/#destinations", label: "Destinasi" },
-  { href: "/#how", label: "Cara Kerja" },
-  { href: "/#features", label: "Fitur" },
-  { href: "/#testimonials", label: "Testimoni" },
+  { href: "/#destinations", key: "nav.linkDestinations" as const },
+  { href: "/#how", key: "nav.linkHow" as const },
+  { href: "/#features", key: "nav.linkFeatures" as const },
+  { href: "/#testimonials", key: "nav.linkTestimonials" as const },
 ];
 
 export default function Navbar() {
@@ -38,7 +38,7 @@ export default function Navbar() {
                 href={link.href}
                 className="px-4 py-1.5 text-sm font-medium text-mid hover:text-hi rounded-[var(--radius-full)] hover:bg-lylac-50 transition-colors duration-150"
               >
-                {link.label}
+                {t(link.key)}
               </Link>
             ))}
           </div>
@@ -51,7 +51,7 @@ export default function Navbar() {
               {t("nav.login")}
             </Button>
             <Button href="/signup" size="sm">
-              Daftar Gratis
+              {t("nav.signupFree")}
             </Button>
           </div>
 
@@ -76,7 +76,7 @@ export default function Navbar() {
                   onClick={() => setOpen(false)}
                   className="px-4 py-2.5 text-sm font-medium text-mid hover:text-hi rounded-[var(--radius-md)] hover:bg-lylac-50 transition-colors duration-150"
                 >
-                  {link.label}
+                  {t(link.key)}
                 </Link>
               ))}
               <div className="flex gap-2 mt-3 px-2">

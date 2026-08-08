@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import ForgotContent from "./ForgotContent";
 
 export const metadata: Metadata = {
-  title: "Lupa Password — Trylo",
-  description: "Reset password akun Trylo kamu.",
+  title: "Forgot Password — Trylo",
+  description: "Reset your Trylo account password.",
 };
 
 export default function ForgotPage() {

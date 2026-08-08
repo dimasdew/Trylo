@@ -68,9 +68,9 @@ export default function HomePage() {
 
           <div className="mt-20 grid grid-cols-3 gap-3 max-w-lg mx-auto animate-fade-up delay-700">
             {[
-              { val: "190+", label: "Negara", color: "text-lylac-600" },
-              { val: "2mnt", label: "Aktivasi", color: "text-c-500" },
-              { val: "24/7", label: "Support", color: "text-p-500" },
+              { val: "190+", label: t("landing.statCountries"), color: "text-lylac-600" },
+              { val: "2mnt", label: t("landing.statActivation"), color: "text-c-500" },
+              { val: "24/7", label: t("landing.statSupport"), color: "text-p-500" },
             ].map((s) => (
               <div key={s.label} className="glass-card rounded-2xl p-4 text-center shadow-card">
                 <p className={`text-2xl font-bold ${s.color}`}>{s.val}</p>
@@ -86,11 +86,11 @@ export default function HomePage() {
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-lylac-200 to-transparent" />
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-14">
-            <p className="badge badge-v mx-auto mb-4">Paket Regional</p>
+            <p className="badge badge-v mx-auto mb-4">{t("landing.regionBadge")}</p>
             <h2 className="text-3xl sm:text-4xl font-bold text-hi text-balance">
-              Satu paket, banyak negara
+              {t("landing.regionTitle")}
             </h2>
-            <p className="mt-3 text-mid">Hemat lebih banyak dengan paket lintas batas.</p>
+            <p className="mt-3 text-mid">{t("landing.regionSub")}</p>
           </div>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {regionalPlans.map((plan) => (
@@ -106,9 +106,9 @@ export default function HomePage() {
         <div className="absolute left-0 top-1/2 w-96 h-96 orb-v opacity-15 blur-3xl pointer-events-none -translate-x-1/2" />
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-14">
-            <p className="badge mx-auto mb-4">Destinasi Populer</p>
-            <h2 className="text-3xl sm:text-4xl font-bold text-hi">Pilih negara tujuanmu</h2>
-            <p className="mt-3 text-mid">Paket tersedia dari operator lokal terbaik di tiap negara.</p>
+            <p className="badge mx-auto mb-4">{t("landing.destBadge")}</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-hi">{t("landing.destTitle")}</h2>
+            <p className="mt-3 text-mid">{t("landing.destSub")}</p>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
             {popularCountries.map((country) => (
@@ -120,14 +120,14 @@ export default function HomePage() {
                 <Flag flag={country.flag} className="text-4xl" />
                 <span className="text-sm font-medium text-hi text-center">{country.name}</span>
                 <span className="text-xs text-lo group-hover:text-lylac-600 flex items-center gap-1 transition-colors">
-                  Lihat paket <Icon name="arrow" className="h-3 w-3" />
+                  {t("landing.destViewPlans")} <Icon name="arrow" className="h-3 w-3" />
                 </span>
               </Link>
             ))}
           </div>
           <div className="text-center mt-10">
             <Button href="/app/plans" variant="outline" size="lg">
-              Lihat Semua Negara
+              {t("landing.destViewAll")}
               <Icon name="arrow" className="h-4 w-4" />
             </Button>
           </div>
@@ -140,9 +140,9 @@ export default function HomePage() {
         <div className="absolute right-0 top-1/2 w-96 h-96 orb-c opacity-15 blur-3xl pointer-events-none translate-x-1/2" />
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-14">
-            <p className="badge badge-c mx-auto mb-4">Cara Kerja</p>
-            <h2 className="text-3xl sm:text-4xl font-bold text-hi">4 langkah, langsung online</h2>
-            <p className="mt-3 text-mid">Gak perlu ke konter, gak perlu antri.</p>
+            <p className="badge badge-c mx-auto mb-4">{t("landing.howBadge")}</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-hi">{t("landing.howTitle")}</h2>
+            <p className="mt-3 text-mid">{t("landing.howSub")}</p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {steps.map((step, idx) => (
@@ -172,9 +172,9 @@ export default function HomePage() {
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-14">
-            <p className="badge badge-v mx-auto mb-4">Kenapa Trylo?</p>
-            <h2 className="text-3xl sm:text-4xl font-bold text-hi">Dibuat untuk traveler modern</h2>
-            <p className="mt-3 text-mid">Lebih mudah, lebih hemat, lebih tenang.</p>
+            <p className="badge badge-v mx-auto mb-4">{t("landing.featBadge")}</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-hi">{t("landing.featTitle")}</h2>
+            <p className="mt-3 text-mid">{t("landing.featSub")}</p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {features.map((feature) => (
@@ -196,28 +196,28 @@ export default function HomePage() {
         <div className="absolute inset-0 orb-p opacity-8 blur-3xl pointer-events-none" />
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center max-w-2xl mx-auto mb-14">
-            <p className="badge mx-auto mb-4">Testimoni</p>
-            <h2 className="text-3xl sm:text-4xl font-bold text-hi">Cerita mereka</h2>
-            <p className="mt-3 text-mid">Ribuan traveler sudah pakai Trylo.</p>
+            <p className="badge mx-auto mb-4">{t("landing.testiBadge")}</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-hi">{t("landing.testiTitle")}</h2>
+            <p className="mt-3 text-mid">{t("landing.testiSub")}</p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {testimonials.map((t) => (
-              <div key={t.id} className="flex flex-col glass-card rounded-2xl p-6 shadow-card">
+            {testimonials.map((item) => (
+              <div key={item.id} className="flex flex-col glass-card rounded-2xl p-6 shadow-card">
                 <div className="flex gap-0.5 mb-4">
-                  {Array.from({ length: t.rating }).map((_, i) => (
+                  {Array.from({ length: item.rating }).map((_, i) => (
                     <Icon key={i} name="star" className="h-4 w-4 text-lylac-600" />
                   ))}
                 </div>
-                <p className="text-sm text-mid flex-1 mb-5 leading-relaxed">&ldquo;{t.text}&rdquo;</p>
+                <p className="text-sm text-mid flex-1 mb-5 leading-relaxed">&ldquo;{item.text}&rdquo;</p>
                 <div className="flex items-center gap-3 pt-4 border-t border-border">
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-lylac-100 to-lylac-200 border border-lylac-200 text-lylac-700 text-xs font-bold">
-                    {t.avatar}
+                    {item.avatar}
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-hi">{t.name}</p>
+                    <p className="text-sm font-semibold text-hi">{item.name}</p>
                     <p className="text-xs text-lo flex items-center gap-1">
-                      <Flag flag={t.flag} className="h-3 w-3 rounded" />
-                      {t.role}
+                      <Flag flag={item.flag} className="h-3 w-3 rounded" />
+                      {item.role}
                     </p>
                   </div>
                 </div>
@@ -236,16 +236,16 @@ export default function HomePage() {
             <div className="absolute -right-20 -top-20 w-80 h-80 orb-v opacity-20 blur-3xl" />
             <div className="relative text-center">
               <h2 className="text-3xl sm:text-4xl font-bold text-hi text-balance mb-4">
-                Internet global, <span className="text-gradient">tanpa ribet</span>
+                {t("landing.aboutTitle1")} <span className="text-gradient">{t("landing.aboutTitle2")}</span>
               </h2>
               <p className="text-mid max-w-2xl mx-auto text-lg leading-relaxed">
-                Trylo lahir dari pengalaman susahnya cari SIM card di bandara, harga mahal, dan roaming yang bikin boncos. eSIM yang bisa dibeli sebelum take-off, aktif dalam 2 menit, langsung pakai di 190+ negara.
+                {t("landing.aboutBody")}
               </p>
               <div className="mt-10 grid grid-cols-3 gap-4">
                 {[
-                  { val: "190+", label: "Negara", color: "text-gradient" },
-                  { val: "2 mnt", label: "Aktivasi", color: "text-gradient-pink" },
-                  { val: "24/7", label: "Support", color: "text-c-500" },
+                  { val: "190+", label: t("landing.statCountries"), color: "text-gradient" },
+                  { val: "2 mnt", label: t("landing.statActivation"), color: "text-gradient-pink" },
+                  { val: "24/7", label: t("landing.statSupport"), color: "text-c-500" },
                 ].map((s) => (
                   <div key={s.label} className="glass-light rounded-2xl p-5">
                     <p className={`text-3xl sm:text-4xl font-black ${s.color}`}>{s.val}</p>
@@ -270,7 +270,7 @@ export default function HomePage() {
             <div className="relative">
               <div className="badge mx-auto mb-6 !border-white/30 !bg-white/10 !text-white">
                 <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse-dot" />
-                Mulai sekarang, gratis
+                {t("landing.aboutCta")}
               </div>
               <h2 className="text-3xl sm:text-5xl font-bold text-white text-balance mb-4">
                 {t("cta.title")}

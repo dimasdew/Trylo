@@ -90,7 +90,7 @@ export default function LoginForm() {
 
       <Button type="submit" className="w-full" size="lg" disabled={loading}>
         {loading ? (
-          <><Icon name="loader" className="h-4 w-4 animate-spin" /> Memproses...</>
+          <><Icon name="loader" className="h-4 w-4 animate-spin" /> {t("auth.loggingIn")}</>
         ) : t("auth.loginBtn")}
       </Button>
     </form>

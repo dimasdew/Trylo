@@ -5,10 +5,11 @@ import AppSidebar from "@/components/AppSidebar";
 import AppBottomNav from "@/components/AppBottomNav";
 import AuthGuard from "@/components/AuthGuard";
 import { ThemeToggle, LangToggle } from "@/components/PrefToggles";
+import FindPlansLink from "@/components/FindPlansLink";
 
 export const metadata: Metadata = {
   title: "Dashboard — Trylo",
-  description: "Kelola eSIM kamu di dashboard Trylo.",
+  description: "Manage your eSIMs in the Trylo dashboard.",
 };
 
 export default function AppLayout({
@@ -31,13 +32,7 @@ export default function AppLayout({
             <div className="flex items-center gap-2">
               <LangToggle />
               <ThemeToggle />
-              <Link
-                href="/app/plans"
-                className="hidden sm:inline-flex items-center gap-1.5 rounded-[var(--radius-sm)] border border-border bg-white px-4 py-2 text-sm font-medium text-mid hover:text-hi hover:border-lylac-200 transition"
-              >
-                <Icon name="search" className="h-4 w-4" />
-                Cari Paket
-              </Link>
+              <FindPlansLink />
               <div className="flex h-9 w-9 items-center justify-center rounded-full bg-lylac-600 text-white text-xs font-bold">
                 DS
               </div>

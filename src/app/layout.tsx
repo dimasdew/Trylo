@@ -15,13 +15,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Trylo — eSIM Global, Internet di Mana Pun",
+  title: "Trylo — Global eSIM, Internet Anywhere",
   description:
-    "Trylo menyediakan eSIM untuk 190+ negara. Beli, pasang, langsung online. Tanpa kartu fisik, tanpa roaming mahal.",
-  keywords: ["esim", "trylo", "esim global", "esim murah", "internet luar negeri"],
+    "Trylo provides eSIMs for 190+ countries. Buy, install, get online instantly. No physical card, no pricey roaming.",
+  keywords: ["esim", "trylo", "global esim", "cheap esim", "travel internet"],
   openGraph: {
-    title: "Trylo — eSIM Global",
-    description: "Internet di mana pun, kapan pun. eSIM untuk 190+ negara.",
+    title: "Trylo — Global eSIM",
+    description: "Internet anywhere, anytime. eSIMs for 190+ countries.",
     type: "website",
   },
 };

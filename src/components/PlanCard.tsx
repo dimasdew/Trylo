@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Icon from "./Icon";
 import Button from "./Button";
 import { type Plan, formatPrice } from "@/lib/data";
+import { useT } from "@/lib/i18n";
 
 type Props = {
   plan: Plan;
@@ -11,6 +12,7 @@ type Props = {
 };
 
 export default function PlanCard({ plan, showBuyButton = true }: Props) {
+  const t = useT();
   return (
     <motion.div
       whileHover={{ y: -4 }}
@@ -77,7 +79,7 @@ export default function PlanCard({ plan, showBuyButton = true }: Props) {
           </p>
           {showBuyButton && (
             <Button href={`/app/plans/${plan.id}`} className="w-full" size="md">
-              Lihat Detail
+              {t("planCard.viewDetail")}
               <Icon name="arrow" className="h-4 w-4" />
             </Button>
           )}

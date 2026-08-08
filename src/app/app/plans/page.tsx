@@ -7,7 +7,7 @@ import PlanCard from "@/components/PlanCard";
 import Icon from "@/components/Icon";
 import Dropdown from "@/components/Dropdown";
 import { countries, allPlans, type Region } from "@/lib/data";
-import { useT } from "@/lib/i18n";
+import { useT, type TKey } from "@/lib/i18n";
 
 const regions: ("all" | Region)[] = [
   "all",
@@ -20,7 +20,16 @@ const regions: ("all" | Region)[] = [
   "Afrika",
 ];
 
-const regionLabel = (r: string) => (r === "all" ? "Semua" : r);
+const regionKey: Record<string, TKey> = {
+  all: "plans.regionAll",
+  Asia: "plans.regionAsia",
+  Eropa: "plans.regionEurope",
+  "Amerika Utara": "plans.regionNAmerica",
+  "Amerika Selatan": "plans.regionSAmerica",
+  Oseania: "plans.regionOceania",
+  "Timur Tengah": "plans.regionMEast",
+  Afrika: "plans.regionAfrica",
+};
 
 type PlanWithCountry = (typeof allPlans)[0] & { countryName: string };
 
@@ -90,7 +99,7 @@ export default function PlansPage() {
       <div>
         <h1 className="text-2xl font-bold text-hi">{t("plans.title")}</h1>
         <p className="text-sm text-mid mt-1">
-          {filtered.length} paket tersedia · pilih destinasi dan bandingkan.
+          {filtered.length} {t("plans.available")}
         </p>
       </div>
 
@@ -130,7 +139,7 @@ export default function PlansPage() {
                 : "glass-light text-mid hover:text-hi border border-border hover:border-lylac-200"
             }`}
           >
-            {regionLabel(r)}
+            {t(regionKey[r])}
           </button>
         ))}
       </div>
@@ -146,7 +155,7 @@ export default function PlansPage() {
                 : "glass-light text-lo hover:text-mid border border-border"
             }`}
           >
-            Semua
+            {t("plans.countryAll")}
           </button>
           {countries
             .filter((c) => c.region === region)
@@ -189,8 +198,8 @@ export default function PlansPage() {
           <div className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-lylac-50 border border-lylac-100 text-lylac-600 mb-4">
             <Icon name="search" className="h-8 w-8" />
           </div>
-          <p className="text-hi font-semibold">Tidak ada paket ditemukan</p>
-          <p className="text-sm text-mid mt-1">Coba kata kunci lain atau ubah filter.</p>
+          <p className="text-hi font-semibold">{t("plans.emptyTitle")}</p>
+          <p className="text-sm text-mid mt-1">{t("plans.emptyDesc")}</p>
         </div>
       )}
     </div>
