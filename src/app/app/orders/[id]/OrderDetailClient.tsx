@@ -10,10 +10,12 @@ import Button from "@/components/Button";
 import Flag from "@/components/Flag";
 import { useStore } from "@/lib/store";
 import { formatPrice } from "@/lib/data";
+import { useT } from "@/lib/i18n";
 
 export default function OrderDetailClient() {
   const { id } = useParams();
   const router = useRouter();
+  const t = useT();
   const { orders, activateOrder, deleteOrder } = useStore();
   const [showManual, setShowManual] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -28,10 +30,10 @@ export default function OrderDetailClient() {
         <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-lylac-100">
           <Icon name="alert" className="h-8 w-8 text-lylac-600" />
         </div>
-        <h1 className="text-xl font-bold text-lylac-900">Pesanan tidak ditemukan</h1>
-        <p className="mt-2 text-sm text-ink/60">Pesanan mungkin sudah dihapus.</p>
+        <h1 className="text-xl font-bold text-lylac-900">{t("od.notFound")}</h1>
+        <p className="mt-2 text-sm text-ink/60">{t("od.notFoundDesc")}</p>
         <Link href="/app/orders" className="mt-6 inline-block">
-          <Button variant="primary">← Kembali</Button>
+          <Button variant="primary">← {t("od.back")}</Button>
         </Link>
       </div>
     );
@@ -66,7 +68,11 @@ export default function OrderDetailClient() {
   };
 
   const statusLabel =
-    order.status === "active" ? "Aktif" : order.status === "upcoming" ? "Akan Datang" : "Berakhir";
+    order.status === "active"
+      ? t("status.active")
+      : order.status === "upcoming"
+      ? t("status.upcoming")
+      : t("status.expired");
   const statusClass =
     order.status === "active"
       ? "bg-lylac-600 text-white"
@@ -81,7 +87,7 @@ export default function OrderDetailClient() {
         className="inline-flex items-center gap-1.5 text-sm text-lylac-600 hover:underline"
       >
         <Icon name="arrow" className="h-4 w-4 rotate-180" />
-        Kembali ke eSIM Saya
+        {t("od.backToOrders")}
       </Link>
 
       <motion.div
@@ -107,7 +113,7 @@ export default function OrderDetailClient() {
         {order.status === "active" && (
           <div className="mb-6">
             <div className="flex items-center justify-between text-sm mb-2">
-              <span className="text-ink/60">Penggunaan data</span>
+              <span className="text-ink/60">{t("od.dataUsage")}</span>
               <span className="font-medium text-lylac-900">
                 {order.dataUsed} / {order.dataTotal}
               </span>
@@ -121,28 +127,28 @@ export default function OrderDetailClient() {
               />
             </div>
             <p className="text-xs text-ink/50 mt-1.5">
-              {usagePercent.toFixed(0)}% terpakai
+              {usagePercent.toFixed(0)}% {t("od.used")}
             </p>
           </div>
         )}
 
         <div className="grid grid-cols-2 gap-4 py-4 border-y border-lylac-50 text-sm">
           <div>
-            <p className="text-xs text-ink/50 mb-0.5">Dibeli</p>
+            <p className="text-xs text-ink/50 mb-0.5">{t("od.purchased")}</p>
             <p className="font-medium text-lylac-900">{order.purchasedAt}</p>
           </div>
           {order.activatedAt && (
             <div>
-              <p className="text-xs text-ink/50 mb-0.5">Aktif sejak</p>
+              <p className="text-xs text-ink/50 mb-0.5">{t("od.activeSince")}</p>
               <p className="font-medium text-lylac-900">{order.activatedAt}</p>
             </div>
           )}
           <div>
-            <p className="text-xs text-ink/50 mb-0.5">Berakhir</p>
+            <p className="text-xs text-ink/50 mb-0.5">{t("od.expires")}</p>
             <p className="font-medium text-lylac-900">{order.expiresAt}</p>
           </div>
           <div>
-            <p className="text-xs text-ink/50 mb-0.5">Harga</p>
+            <p className="text-xs text-ink/50 mb-0.5">{t("od.price")}</p>
             <p className="font-medium text-lylac-900">{formatPrice(order.price)}</p>
           </div>
         </div>
@@ -159,16 +165,16 @@ export default function OrderDetailClient() {
                 fgColor="#4c1d95"
               />
             </div>
-            <p className="mt-3 text-xs text-ink/50">Scan untuk install eSIM</p>
+            <p className="mt-3 text-xs text-ink/50">{t("od.scanToInstall")}</p>
           </div>
           <div className="mt-4 flex flex-wrap gap-2 justify-center">
             <Button variant="outline" size="sm" onClick={downloadQR}>
               <Icon name="download" className="h-4 w-4" />
-              Download QR
+              {t("od.downloadQr")}
             </Button>
             <Button size="sm" onClick={() => setShowManual(true)}>
               <Icon name="qr" className="h-4 w-4" />
-              Kode Manual
+              {t("od.manualCode")}
             </Button>
           </div>
         </div>
@@ -182,14 +188,14 @@ export default function OrderDetailClient() {
           className="rounded-2xl border border-lylac-200 bg-lylac-50 p-6 text-center"
         >
           <p className="text-sm text-lylac-900 font-medium mb-1">
-            eSIM siap diaktifkan
+            {t("od.readyTitle")}
           </p>
           <p className="text-xs text-ink/60 mb-4">
-            Aktifkan sekarang untuk mulai menggunakan paket {order.data}.
+            {t("od.readyDesc")} {order.data}.
           </p>
           <Button onClick={handleActivate} className="w-full sm:w-auto">
             <Icon name="bolt" className="h-4 w-4" />
-            Aktifkan Sekarang
+            {t("od.activateNow")}
           </Button>
         </motion.div>
       )}
@@ -197,17 +203,17 @@ export default function OrderDetailClient() {
       {order.status === "expired" && (
         <div className="rounded-2xl border border-dashed border-lylac-200 bg-lylac-50/30 p-6 text-center">
           <p className="text-sm text-lylac-900 font-medium">
-            eSIM ini sudah berakhir
+            {t("od.expiredTitle")}
           </p>
           <p className="text-xs text-ink/50 mb-3">
-            Butuh paket baru untuk perjalanan berikutnya?
+            {t("od.expiredDesc")}
           </p>
           <div className="flex flex-wrap gap-2 justify-center">
             <Link href="/app/plans">
-              <Button size="sm">Beli Paket Baru</Button>
+              <Button size="sm">{t("od.buyNew")}</Button>
             </Link>
             <Button variant="outline" size="sm" onClick={() => setShowDelete(true)}>
-              Hapus
+              {t("od.delete")}
             </Button>
           </div>
         </div>
@@ -215,13 +221,13 @@ export default function OrderDetailClient() {
 
       {order.status === "active" && (
         <div className="rounded-2xl border border-lylac-100 bg-white p-4">
-          <p className="text-xs text-ink/50 mb-2">Aksi</p>
+          <p className="text-xs text-ink/50 mb-2">{t("od.actions")}</p>
           <div className="flex flex-wrap gap-2">
             <Link href="/app/plans">
-              <Button variant="outline" size="sm">Beli Paket Tambahan</Button>
+              <Button variant="outline" size="sm">{t("od.buyExtra")}</Button>
             </Link>
             <Button variant="outline" size="sm" onClick={() => setShowDelete(true)}>
-              Hapus Pesanan
+              {t("od.deleteOrder")}
             </Button>
           </div>
         </div>
@@ -245,7 +251,7 @@ export default function OrderDetailClient() {
               className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl"
             >
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-bold text-lylac-900">Kode Aktivasi Manual</h2>
+                <h2 className="text-lg font-bold text-lylac-900">{t("od.manualTitle")}</h2>
                 <button
                   onClick={() => setShowManual(false)}
                   className="text-ink/40 hover:text-ink"
@@ -254,8 +260,7 @@ export default function OrderDetailClient() {
                 </button>
               </div>
               <p className="text-sm text-ink/60 mb-4">
-                Jika scan QR tidak berfungsi, masukkan kode ini manual di pengaturan eSIM
-                HP kamu:
+                {t("od.manualDesc")}
               </p>
               <div className="rounded-xl border border-dashed border-lylac-300 bg-lylac-50 p-3">
                 <p className="font-mono text-xs break-all text-lylac-900">
@@ -270,17 +275,17 @@ export default function OrderDetailClient() {
                 {copied ? (
                   <>
                     <Icon name="check" className="h-4 w-4" />
-                    Tersalin!
+                    {t("od.copied")}
                   </>
                 ) : (
                   <>
                     <Icon name="copy" className="h-4 w-4" />
-                    Salin Kode
+                    {t("od.copyCode")}
                   </>
                 )}
               </Button>
               <p className="mt-3 text-xs text-ink/40 text-center">
-                Pengaturan → Cellular → Add eSIM → Enter activation code
+                {t("od.manualHint")}
               </p>
             </motion.div>
           </motion.div>
@@ -307,20 +312,20 @@ export default function OrderDetailClient() {
               <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-100">
                 <Icon name="trash" className="h-6 w-6 text-red-600" />
               </div>
-              <h2 className="text-center text-lg font-bold text-lylac-900">Hapus Pesanan?</h2>
+              <h2 className="text-center text-lg font-bold text-lylac-900">{t("od.deleteConfirmTitle")}</h2>
               <p className="mt-1 text-center text-sm text-ink/60">
-                Pesanan &quot;{order.planName}&quot; akan dihapus permanen. Aksi ini tidak dapat dibatalkan.
+                &quot;{order.planName}&quot; {t("od.deleteConfirmDesc")}
               </p>
               <div className="mt-6 flex gap-2">
                 <Button variant="outline" className="flex-1" onClick={() => setShowDelete(false)}>
-                  Batal
+                  {t("od.cancel")}
                 </Button>
                 <Button
                   variant="danger"
                   className="flex-1"
                   onClick={handleDelete}
                 >
-                  Hapus
+                  {t("od.delete")}
                 </Button>
               </div>
             </motion.div>
